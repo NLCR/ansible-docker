@@ -1,0 +1,24 @@
+---
+- name: Docker toolset is installed and latest
+  yum: 
+    name: docker-io, python-pip, python-docker-py
+    state: latest
+
+- name: pip | provision
+  pip:
+    name: docker-py
+    state: latest
+
+- name: Docker service is running and survives restarts
+  service: 
+    name: docker
+    state: started
+    enabled: yes
+
+- name: 'Run containers: {{ docker | join(", ", attribute="image") }}'
+  docker_container:
+    name: '{{ item.name }}'
+    image: '{{ item.image }}'
+    ports: '{{ item.ports }}'
+    state: '{{ item.state }}'
+  with_items: '{{ docker }}'
