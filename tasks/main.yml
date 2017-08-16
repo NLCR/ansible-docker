@@ -1,6 +1,11 @@
 ---
+- name: Enable EPEL repository
+  yum:
+    name: epel-release
+    state: present
+
 - name: Docker toolset is installed and latest
-  yum: 
+  yum:
     name: docker-io, python-pip, python-docker-py
     state: latest
 
@@ -10,7 +15,7 @@
     state: latest
 
 - name: Docker service is running and survives restarts
-  service: 
+  service:
     name: docker
     state: started
     enabled: yes
@@ -21,4 +26,5 @@
     image: '{{ item.image }}'
     ports: '{{ item.ports }}'
     state: '{{ item.state }}'
+    volumes: '{{ item.volumes | default(omit) }}'
   with_items: '{{ docker }}'
