@@ -24,6 +24,7 @@
   docker_container:
     name: '{{ item.name }}'
     image: '{{ item.image }}'
+    pull: '{{ pull_image | default("no") }}'
     ports: '{{ item.ports }}'
     state: '{{ item.state }}'
     volumes: '{{ item.volumes | default(omit) }}'
