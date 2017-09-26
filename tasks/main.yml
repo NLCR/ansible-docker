@@ -8,11 +8,13 @@
   yum:
     name: docker-io, python-pip, python-docker-py
     state: latest
+  ignore_errors: "{{ ansible_check_mode }}"
 
 - name: pip | provision
   pip:
     name: docker-py
     state: latest
+  ignore_errors: "{{ ansible_check_mode }}"
 
 - name: Docker service is running and survives restarts
   service:
@@ -29,3 +31,4 @@
     state: '{{ item.state }}'
     volumes: '{{ item.volumes | default(omit) }}'
   with_items: '{{ docker }}'
+  ignore_errors: "{{ ansible_check_mode }}"
