@@ -4,10 +4,10 @@
     name: epel-release
     state: present
 
-- name: Docker toolset is installed and latest
+- name: Docker toolset is installed
   yum:
     name: docker-io, python-pip, python-docker-py
-    state: latest
+    state: present
   ignore_errors: "{{ ansible_check_mode }}"
 
 - name: pip | provision
@@ -21,12 +21,6 @@
     name: docker
     state: started
     enabled: yes
-
-- name: Create named volume if defined
-  docker_volume:
-    name: '{{ item.volumes | default(omit) }}'
-  with_items: '{{ docker }}'
-  when: docker.volumes is defined
 
 - name: 'Run containers: {{ docker | join(", ", attribute="image") }}'
   docker_container:
