@@ -22,6 +22,12 @@
     state: started
     enabled: yes
 
+- name: Create named volume if defined
+  docker_volume:
+    name: '{{ item.volumes | default(omit) }}'
+  with_items: '{{ docker }}'
+  when: docker.volumes is defined
+
 - name: 'Run containers: {{ docker | join(", ", attribute="image") }}'
   docker_container:
     name: '{{ item.name }}'
