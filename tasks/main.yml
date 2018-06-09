@@ -29,7 +29,7 @@
     pull: '{{ pull_image | default("no") }}'
     ports: '{{ item.ports }}'
     state: '{{ item.state }}'
-    restart_policy: {{ item.restart_policy | default(no) }}'
+    restart_policy: '{{ item.restart_policy | default(no) }}'
     volumes: '{{ item.volumes | default(omit) }}'
   with_items: '{{ docker }}'
   ignore_errors: "{{ ansible_check_mode }}"
